@@ -1,0 +1,24 @@
+{
+    "name": "haassie/timeular",
+    "description": "Client to get data from the Timeular API",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Richard Haeser",
+            "email": "richard@richardhaeser.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "guzzlehttp/guzzle": "^7.2",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Haassie\\Timeular\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/dotenv": "^5.2"
+    }
+}
