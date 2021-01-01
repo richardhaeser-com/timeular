@@ -28,6 +28,6 @@ jobs:
         run: composer test:php:lint
       - name: CGL
         run: composer test:php:cgl
+        if: ${{ matrix.php != 'php8.0' }}
       - name: PHPStan
         run: php -d memory_limit=-1 vendor/bin/phpstan analyse -c phpstan.neon
-        if: ${{ matrix.php != 'php8.0' }}
