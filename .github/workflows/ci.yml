@@ -1,0 +1,32 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build-php:
+    name: Build PHP
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 6
+      fail-fast: false
+      matrix:
+        php: ['php7.2', 'php7.3', 'php7.4', 'php8.0']
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up PHP Version
+        run: |
+          sudo update-alternatives --set php /usr/bin/${{ matrix.php }}
+          php -v
+      - name: Update Composer
+        run: |
+          sudo composer self-update
+          composer --version
+      - name: Install
+        run: |
+          composer install
+      - name: Lint
+        run: composer test:php:lint
+      - name: CGL
+        run: composer test:php:cgl
+      - name: PHPStan
+        run: php -d memory_limit=-1 vendor/bin/phpstan analyse -c phpstan.neon

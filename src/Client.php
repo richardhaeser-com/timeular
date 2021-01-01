@@ -2,7 +2,6 @@
 namespace Haassie\Timeular;
 
 use GuzzleHttp\Client as GuzzleClient;
-use Haassie\Timeular\Domain\Model\Activity;
 use Haassie\Timeular\Exceptions\MissingCredentialsException;
 
 class Client
@@ -26,7 +25,6 @@ class Client
 
     public function __construct(string $apiKey, string $apiSecret, GuzzleClient $guzzleClient = null)
     {
-
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
 
@@ -80,9 +78,9 @@ class Client
     {
         $data = ['apiKey' => $this->apiKey, 'apiSecret' => $this->apiSecret];
         $result = $this->guzzleClient->request(
-          'POST',
-          self::$apiUrl . 'developer/sign-in',
-          [
+            'POST',
+            self::$apiUrl . 'developer/sign-in',
+            [
               'headers' => [
                   'Accept' => 'application/json'
               ],
