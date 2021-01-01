@@ -30,3 +30,4 @@ jobs:
         run: composer test:php:cgl
       - name: PHPStan
         run: php -d memory_limit=-1 vendor/bin/phpstan analyse -c phpstan.neon
+        if: ${{ matrix.php != 'php8.0' }}
