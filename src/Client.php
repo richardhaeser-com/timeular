@@ -7,6 +7,7 @@ use Haassie\Timeular\Exceptions\MissingCredentialsException;
 class Client
 {
     protected static $apiUrl = 'https://api.timeular.com/api/v3/';
+    protected static $timeFormat = 'Y-m-d\TH:i:s.v';
 
     /**
      * @var string
@@ -45,7 +46,43 @@ class Client
     public function getIntegrations(): array
     {
         $data = $this->getData('integrations');
+
+        if (!is_array($data) || !array_key_exists('integrations', $data)) {
+            return [];
+        }
         return $data['integrations'];
+    }
+
+    public function getWebhookEvents(): array
+    {
+        $data = $this->getData('webhooks/event');
+
+        if (!is_array($data) || !array_key_exists('events', $data)) {
+            return [];
+        }
+        return $data['events'];
+    }
+
+    public function getWebhookSubscriptions(): array
+    {
+        $data = $this->getData('webhooks/subscription');
+
+        if (!is_array($data) || !array_key_exists('subscriptions', $data)) {
+            return [];
+        }
+        return $data['subscriptions'];
+    }
+
+    public function getTimeEntries(\DateTime $startDate, \DateTime $endDate): array
+    {
+        $path = 'time-entries/' . $startDate->format(self::$timeFormat) . '/' . $endDate->format(self::$timeFormat);
+
+        $data = $this->getData($path);
+
+        if (!is_array($data) || !array_key_exists('timeEntries', $data)) {
+            return [];
+        }
+        return $data['timeEntries'];
     }
 
     public function getActivities(): array
