@@ -2,6 +2,7 @@
 namespace Haassie\Timeular;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\ClientException;
 use Haassie\Timeular\Exceptions\MissingCredentialsException;
 
 class Client
@@ -73,6 +74,24 @@ class Client
         return $data['subscriptions'];
     }
 
+    public function resetWebhookSubscriptions(): array
+    {
+        $data = $this->deleteData('webhooks/subscription');
+
+        return $data;
+    }
+
+    public function addWebhookSubscription(string $event, string $url): array
+    {
+        return $this->postData(
+            'webhooks/subscription',
+            [
+                'event' => $event,
+                'target_url' => $url
+            ]
+        );
+    }
+
     public function getTimeEntries(\DateTime $startDate, \DateTime $endDate): array
     {
         $path = 'time-entries/' . $startDate->format(self::$timeFormat) . '/' . $endDate->format(self::$timeFormat);
@@ -108,6 +127,44 @@ class Client
                 ]
             ]
         );
+        return json_decode((string)$result->getBody(), true);
+    }
+
+    protected function deleteData(string $path): array
+    {
+        $token = $this->getToken();
+        $result = $this->guzzleClient->request(
+            'DELETE',
+            self::$apiUrl . $path,
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token
+                ]
+            ]
+        );
+        return json_decode((string)$result->getBody(), true);
+    }
+
+    protected function postData(string $path, array $data): array
+    {
+        $token = $this->getToken();
+
+        try {
+            $result = $this->guzzleClient->request(
+                'POST',
+                self::$apiUrl . $path,
+                [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $token
+                    ],
+                    'json' => $data
+                ]
+            );
+        } catch (ClientException $exception) {
+            $responseBody = $exception->getResponse()->getBody()->getContents();
+            return json_decode((string)$responseBody, true);
+        }
+
         return json_decode((string)$result->getBody(), true);
     }
 
