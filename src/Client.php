@@ -1,9 +1,9 @@
 <?php
-namespace Haassie\Timeular;
+namespace RichardHaeser\Timeular;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
-use Haassie\Timeular\Exceptions\MissingCredentialsException;
+use RichardHaeser\Timeular\Exceptions\MissingCredentialsException;
 
 class Client
 {

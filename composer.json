@@ -1,5 +1,5 @@
 {
-    "name": "haassie/timeular",
+    "name": "richardhaeser/timeular",
     "description": "Client to get data from the Timeular API",
     "type": "library",
     "authors": [
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Haassie\\Timeular\\": "src/"
+            "RichardHaeser\\Timeular\\": "src/"
         }
     },
     "require-dev": {

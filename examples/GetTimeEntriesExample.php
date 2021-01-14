@@ -1,7 +1,7 @@
 <?php
 require_once 'Common.php';
 
-$client = new \Haassie\Timeular\Client($apiKey, $apiSecret);
+$client = new \RichardHaeser\Timeular\Client($apiKey, $apiSecret);
 $startDate = new \DateTime();
 $startDate->modify('-3 days');
 

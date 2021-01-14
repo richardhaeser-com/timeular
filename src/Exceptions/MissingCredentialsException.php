@@ -1,5 +1,5 @@
 <?php
-namespace Haassie\Timeular\Exceptions;
+namespace RichardHaeser\Timeular\Exceptions;
 
 class MissingCredentialsException extends \Exception
 {
